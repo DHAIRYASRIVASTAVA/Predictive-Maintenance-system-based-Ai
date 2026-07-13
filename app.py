@@ -24,9 +24,9 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-# ---------------------------------------------------------------
+
 # Config
-# ---------------------------------------------------------------
+
 MODEL_DIR = "models"
 DB_PATH = "predictions.db"
 
@@ -36,9 +36,9 @@ st.set_page_config(
     layout="wide",
 )
 
-# ---------------------------------------------------------------
+
 # Load model artifacts (cached)
-# ---------------------------------------------------------------
+
 @st.cache_resource
 def load_artifacts():
     model = joblib.load(f"{MODEL_DIR}/best_model.pkl")
@@ -52,9 +52,9 @@ def load_artifacts():
 
 ARTIFACTS_OK = os.path.exists(f"{MODEL_DIR}/best_model.pkl")
 
-# ---------------------------------------------------------------
+
 # SQLite setup
-# ---------------------------------------------------------------
+
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
@@ -112,9 +112,9 @@ def fetch_history() -> pd.DataFrame:
 
 init_db()
 
-# ---------------------------------------------------------------
+
 # Business logic: risk level + maintenance recommendation
-# ---------------------------------------------------------------
+
 def get_risk_and_recommendation(status: str, failure_prob: float):
     if status == "Healthy":
         risk = "Low"
@@ -141,9 +141,9 @@ def get_risk_and_recommendation(status: str, failure_prob: float):
     return risk, rec
 
 
-# ---------------------------------------------------------------
+
 # Sidebar navigation
-# ---------------------------------------------------------------
+
 st.sidebar.title("🛠️ Predictive Maintenance")
 page = st.sidebar.radio(
     "Navigate",
@@ -156,9 +156,9 @@ st.sidebar.caption(
     "Enter live sensor readings to estimate machine health."
 )
 
-# ---------------------------------------------------------------
+
 # PAGE: Predict
-# ---------------------------------------------------------------
+
 if page == "Predict":
     st.title("🔧 Machine Health Prediction")
     st.write(
@@ -275,11 +275,11 @@ if page == "Predict":
             insert_prediction(record)
             st.success("Prediction saved to history.")
 
-# ---------------------------------------------------------------
+
 # PAGE: Prediction History
-# ---------------------------------------------------------------
+
 elif page == "Prediction History":
-    st.title("📜 Prediction History")
+    st.title("Prediction History")
     history_df = fetch_history()
 
     if history_df.empty:
@@ -361,11 +361,11 @@ elif page == "Dashboard":
         )
         st.plotly_chart(fig5, use_container_width=True)
 
-# ---------------------------------------------------------------
+
 # PAGE: About
-# ---------------------------------------------------------------
+
 else:
-    st.title("ℹ️ About This Project")
+    st.title(" About This Project")
     st.markdown(
         """
         **Predictive Maintenance using AI** is a machine learning system that

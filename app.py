@@ -331,7 +331,7 @@ elif page == "Dashboard":
         with col2:
             fig2 = px.bar(
                 status_counts, x="Status", y="Count", color="Status",
-                color_discrete_map={"Healthy": "green", "Warning": "orange", "Faulty": "red"},
+                color_discrete_map={"Healthy": "green", "Warning": "yellow", "Faulty": "red"},
                 title="Predictions by Status",
             )
             st.plotly_chart(fig2, use_container_width=True)

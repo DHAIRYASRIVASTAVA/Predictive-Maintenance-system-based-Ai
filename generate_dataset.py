@@ -1,16 +1,3 @@
-"""
-generate_dataset.py
---------------------
-Generates a synthetic "Machine Fault Detection" dataset that mirrors the
-structure of common Kaggle predictive-maintenance datasets (Temperature,
-Vibration, RPM, Voltage, Current, Pressure, Machine_Type -> Status).
-
-Why synthetic? This lets the whole project run end-to-end immediately.
-If you have the real Kaggle "Machine Fault Detection Dataset", just drop
-it in as data/machine_data.csv with the same column names and skip this
-script — everything downstream (train_model.py, app.py) will work as-is.
-"""
-
 import numpy as np
 import pandas as pd
 import os

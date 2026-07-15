@@ -63,8 +63,6 @@ df = pd.DataFrame(
     ],
 )
 
-# introduce a few missing values / duplicates on purpose, so the
-# preprocessing step in train_model.py has real cleaning work to do
 mask = df.sample(frac=0.01, random_state=1).index
 df.loc[mask, "Pressure"] = np.nan
 df = pd.concat([df, df.sample(20, random_state=2)], ignore_index=True)

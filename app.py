@@ -1,19 +1,3 @@
-"""
-app.py
-------
-Streamlit frontend for the Predictive Maintenance project.
-
-Pages (sidebar navigation):
-1. Predict          -> input form, live prediction, failure probability, risk level,
-                        maintenance recommendation
-2. Prediction History -> table of past predictions pulled from SQLite
-3. Dashboard         -> interactive charts (bar, pie, line, histogram) over history
-4. About             -> project info
-
-Run with:
-    streamlit run app.py
-"""
-
 import os
 import sqlite3
 from datetime import datetime
@@ -299,9 +283,9 @@ elif page == "Prediction History":
             conn.close()
             st.rerun()
 
-# ---------------------------------------------------------------
+
 # PAGE: Dashboard
-# ---------------------------------------------------------------
+
 elif page == "Dashboard":
     st.title("📊 Maintenance Dashboard")
     history_df = fetch_history()

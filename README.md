@@ -1,152 +1,157 @@
 # 🛠️ Predictive Maintenance using AI
 
-An end-to-end machine learning project that predicts machine health
-(**Healthy / Warning / Faulty**) from live sensor readings, estimates
-**failure probability**, assigns a **risk level**, and gives a
-**maintenance recommendation** — all wrapped in an interactive Streamlit app
-with SQLite-backed prediction history.
+This is my project on Predictive Maintenance using Machine Learning. The idea is simple — instead of waiting for a machine to break down, we use sensor data (like temperature, vibration, RPM, etc.) to predict if the machine is going to fail **before** it actually happens. This helps save time, money, and prevents accidents in factories.
 
----
+I built this project using Python, Machine Learning, and a Streamlit web app so anyone can enter sensor values and get an instant prediction.
+
+## 📌 What this project does
+
+1. Takes sensor readings as input (Temperature, Vibration, RPM, Voltage, Current, Pressure)
+2. Predicts the machine's status: **Healthy / Warning / Faulty**
+3. Shows a **Failure Probability (%)**
+4. Shows a **Risk Level**: Low / Medium / High
+5. Gives a **Maintenance Recommendation** (what action to take)
+6. Saves every prediction to a database so you can see history later
+7. Has a dashboard with charts to see overall trends.
+
+## 🧰 Tools & Technologies I used
+
+- **Python** – main programming language
+- **Google Colab** – for writing and testing the code
+- **Pandas & NumPy** – for handling and cleaning the data
+- **Matplotlib & Seaborn** – for making graphs during data analysis (EDA)
+- **Scikit-learn** – for building the Machine Learning models
+- **Plotly** – for interactive charts inside the web app
+- **Joblib** – to save the trained model so I don't have to train it again and again
+- **Streamlit** – to build the web app (frontend)
+- **SQLite** – small database to store prediction history
+- **Git & GitHub** – for version control and hosting the project
+
+## 🤖 Machine Learning Models I compared
+
+I didn't just use one model — I trained multiple models and compared their performance:
+
+| Model | What it does |
+|---|---|
+| Logistic Regression | Simple baseline model |
+| Decision Tree | Makes decisions using if-else type questions |
+| **Random Forest** ✅ | Combines 200 decision trees and takes a majority vote — this is the model I finally used |
+| SVM | Draws the best boundary line between classes |
+| XGBoost (optional) | Builds trees one after another to fix previous mistakes |
+
+I picked **Random Forest** as the final model because it's more accurate and doesn't easily overfit compared to a single Decision Tree.
+
+
 
 ## 📁 Project Structure
 
 ```
 predictive_maintenance/
-├── generate_dataset.py     # Creates a synthetic machine fault dataset (data/machine_data.csv)
-├── train_model.py          # Cleans data, runs EDA, trains & compares models, saves best model
-├── app.py                  # Streamlit frontend: Predict / History / Dashboard / About
-├── requirements.txt
-├── README.md
+│
+├── generate_dataset.py     -> creates a sample dataset (if real dataset not available)
+├── train_model.py          -> cleans data, does EDA, trains models, saves the best one
+├── app.py                  -> the Streamlit web app
+├── requirements.txt        -> list of libraries needed
+├── README.md                -> this file
+│
 ├── data/
-│   └── machine_data.csv    # generated dataset (or replace with the real Kaggle CSV)
-├── models/                 # saved model, scaler, encoders (joblib)
+│   └── machine_data.csv    -> dataset used for training
+│
+├── models/                 -> saved trained model, scaler, encoders (as .pkl files)
+│
 └── outputs/
-    └── eda/                # saved EDA charts (PNG)
+    └── eda/                -> graphs generated during data analysis
 ```
 
 ---
 
-## 🚀 Quick Start (Local / Colab)
+## 🚀 How to run this project
 
-### 1. Clone and set up
+### Step 1: Clone this repo
 ```bash
 git clone https://github.com/<your-username>/predictive-maintenance-ai.git
 cd predictive-maintenance-ai
+```
+
+### Step 2: Install required libraries
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Get the dataset
-**Option A — Use the real Kaggle dataset (recommended for a real project):**
-- Download the "Machine Fault Detection Dataset" from Kaggle.
-- Rename/place it at `data/machine_data.csv`.
-- Make sure the columns match: `Machine_Type, Temperature, Vibration, RPM, Voltage, Current, Pressure, Status`
-  (rename your columns to match, or edit `train_model.py`/`app.py` accordingly).
-
-**Option B — Use the built-in synthetic generator (works immediately, no download needed):**
+### Step 3: Get the dataset
+Either use the real dataset from Kaggle (Machine Fault Detection Dataset) and place it in `data/machine_data.csv`, OR just run this to generate a sample dataset:
 ```bash
 python generate_dataset.py
 ```
 
-### 3. Train the model
+### Step 4: Train the model
 ```bash
 python train_model.py
 ```
-This will:
-- Clean the data (remove duplicates, handle missing values)
-- Save EDA charts to `outputs/eda/`
-- Train Logistic Regression, Decision Tree, Random Forest, SVM (and XGBoost if installed)
-- Print accuracy / precision / recall / F1 / confusion matrix for each
-- Save the best model + scaler + encoders to `models/` using `joblib`
+This will clean the data, generate graphs, train all the models, compare them, and save the best model.
 
-### 4. Run the Streamlit app
+### Step 5: Run the web app
 ```bash
 streamlit run app.py
 ```
-Open the local URL Streamlit prints (usually `http://localhost:8501`).
-
----
-
-## 🖥️ Using the App
-
-- **Predict** — enter Machine Type, Temperature, Vibration, RPM, Voltage, Current,
-  Pressure → get:
-  - Machine Status (Healthy / Warning / Faulty)
-  - Failure Probability (%)
-  - Risk Level (Low / Medium / High)
-  - Maintenance Recommendation
-  - Every prediction is saved automatically to a local SQLite database (`predictions.db`)
-- **Prediction History** — view/download all past predictions, or clear history
-- **Dashboard** — bar chart, pie chart, histogram, line chart, and a correlation
-  heatmap built from your prediction history
-- **About** — project summary
-
----
-
-## ☁️ Deploying to Streamlit Community Cloud
-
-1. Push this project to a public GitHub repository (include `data/machine_data.csv`
-   and the `models/` folder, or add a build step that runs
-   `generate_dataset.py` + `train_model.py` before the app starts).
-2. Go to [share.streamlit.io](https://share.streamlit.io), sign in with GitHub.
-3. Click **New app**, pick your repo/branch, and set the main file to `app.py`.
-4. Deploy. Streamlit Cloud installs everything from `requirements.txt` automatically.
-
-> Tip: SQLite on Streamlit Cloud is ephemeral (resets on redeploy/restart).
-> That's fine for a demo; for persistence in production, swap SQLite for a
-> hosted database.
-
----
-
-## 🧠 Model Details
-
-| Step | Technique |
-|---|---|
-| Missing values | Median imputation (numeric columns) |
-| Duplicates | Dropped |
-| Categorical encoding | `LabelEncoder` (Machine_Type, Status) |
-| Scaling | `StandardScaler` |
-| Split | 80/20 train-test, stratified |
-| Models compared | Logistic Regression, Decision Tree, Random Forest, SVM, (XGBoost optional) |
-| Selected model | Random Forest (recommended; script auto-picks best F1 if you swap it out) |
-| Evaluation | Accuracy, Precision, Recall, F1, Confusion Matrix, Classification Report |
-| Persistence | `joblib` (`models/best_model.pkl`, `scaler.pkl`, encoders) |
+It will open in your browser at `http://localhost:8501`
 
 ---
 
 ## 📊 Input Features
 
-| Feature | Description |
+| Feature | Meaning |
 |---|---|
-| Machine_Type | Motor / Pump / Compressor / Turbine |
-| Temperature | °C |
-| Vibration | mm/s |
+| Machine_Type | Type of machine (Motor, Pump, Compressor, Turbine) |
+| Temperature | In °C |
+| Vibration | In mm/s |
 | RPM | Rotational speed |
-| Voltage | V |
-| Current | A |
-| Pressure | bar |
+| Voltage | In Volts |
+| Current | In Amperes |
+| Pressure | In bar |
 
 ## 🎯 Output
 
-- **Machine Status**: Healthy / Warning / Faulty
-- **Failure Probability**: % (derived from model's predicted class probabilities)
-- **Risk Level**: Low / Medium / High
-- **Maintenance Recommendation**: actionable text guidance
+- Machine Status: **Healthy / Warning / Faulty**
+- Failure Probability: **e.g. 72%**
+- Risk Level: **Low / Medium / High**
+- Maintenance Recommendation (what to do next)
 
 ---
 
-## 🔧 Tech Stack
+## 🖥️ App Pages
 
-Python · Pandas · NumPy · Matplotlib · Seaborn · Plotly · Scikit-learn ·
-XGBoost (optional) · Joblib · Streamlit · SQLite · Git/GitHub
+1. **Predict** – enter sensor values and get an instant prediction
+2. **Prediction History** – see all past predictions (stored in SQLite)
+3. **Dashboard** – graphs and charts showing overall trends
+4. **About** – info about the project
 
 ---
 
-## 📌 Notes
+## 📈 Model Evaluation
 
-- Replace the synthetic dataset with the real Kaggle "Machine Fault Detection
-  Dataset" any time — just keep the column names consistent (or adjust the
-  scripts).
-- To improve accuracy further: try `GridSearchCV`/`RandomizedSearchCV` for
-  hyperparameter tuning, add more engineered features (e.g. rolling averages
-  if you have time-series sensor logs), or add class-imbalance handling
-  (e.g. `class_weight="balanced"`, SMOTE) if your real dataset is skewed.
+I evaluated all models using:
+- Accuracy
+- Precision
+- Recall
+- F1-Score
+- Confusion Matrix
+
+Random Forest performed the best overall and was saved for use in the app.
+
+
+
+## 🙋‍♂️ What I learned from this project
+
+- How to clean and analyze real-world type data
+- How to train and compare multiple Machine Learning models
+- How to save and reuse a trained model using Joblib
+- How to build a simple web app using Streamlit
+- How to connect an app to a database (SQLite)
+- How to use Git and GitHub for a full project
+- How to deploy a Machine Learning project online
+
+
+## 🧑‍💻 Author
+
+Made by Dhairya Srivastava as a project on Predictive Maintenance using AI.

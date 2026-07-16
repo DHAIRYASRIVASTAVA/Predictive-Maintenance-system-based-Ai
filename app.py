@@ -25,7 +25,7 @@ st.markdown(
     <style>
     /* Main app background */
     .stApp {
-        background-color: #0E1117;
+        background-color: #3D2424;
         color: #E6E6E6;
     }
 

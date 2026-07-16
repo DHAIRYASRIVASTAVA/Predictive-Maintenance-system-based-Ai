@@ -25,13 +25,13 @@ st.markdown(
     <style>
     /* Main app background */
     .stApp {
-        background-color: #3D2424;
+        background-color: #3B3B3B;
         color: #E6E6E6;
     }
 
     /* Sidebar background */
     section[data-testid="stSidebar"] {
-        background-color: #161B22;
+        background-color: #212121;
     }
     section[data-testid="stSidebar"] * {
         color: #E6E6E6;

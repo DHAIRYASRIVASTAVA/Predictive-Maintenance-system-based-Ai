@@ -94,7 +94,7 @@ This will clean the data, generate graphs, train all the models, compare them, a
 ```bash
 streamlit run app.py
 ```
-It will open in your browser at `http://localhost:8501`
+### LIVE PROJECT WORKING LINK:-https://predictive-maintenance-system-based-ai-2tzqpmxzupchkquv53akif.streamlit.app/
 
 ---
 

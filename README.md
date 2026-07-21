@@ -155,3 +155,5 @@ Random Forest performed the best overall and was saved for use in the app.
 ## 🧑‍💻 Author
 
 Made by Dhairya Srivastava as a project on Predictive Maintenance using AI.
+Linkedin:-https://www.linkedin.com/in/dhairya-srivastava-b74253331/
+Github:-https://github.com/DHAIRYASRIVASTAVA 
